@@ -109,6 +109,8 @@ print(sweeteners)
 # Find the percentage of sweeteners perferred.
 sweeteners_choice = sweeteners.mean() * 100
 print("\nPercentage of customers that prefers each sweeteners:")
+
+sweeteners_choice = sweeteners_choice.sort_values()
 print(sweeteners_choice)
 sweeteners_choice.to_csv("output/sweeteners_choice.csv")
 
@@ -117,4 +119,56 @@ plt.xlabel("Percentage of People")
 plt.ylabel("Sweeteners prefered")
 plt.title("Percentage of people preferring different sweeteners")
 plt.savefig("output/figures/people-and-their-sweetener-choices.png")
+plt.show()
+
+
+# identify the brewing methods coffee shop offer to meet customer satisfaction
+brewing_methods_field_names = [
+    'How do you brew your coffee? (Pour over)',
+    'How do you brew your coffee? (French press)',
+    'How do you brew your coffee? (Espresso)',
+    'How do you brew your coffee? (Coffee brewing machine)',
+    'How do you brew your coffee? (Pod/capsule machine)',
+    'How do you brew your coffee? (Instant coffee)',
+    'How do you brew your coffee? (Bean-to-cup machine)',
+    'How do you brew your coffee? (Cold brew)',
+    'How do you brew your coffee? (Coffee extract)'
+]
+
+brewing_methods_field_name_map = {
+    'How do you brew your coffee? (Pour over)': 'Pour over',
+    'How do you brew your coffee? (French press)': 'French press',
+    'How do you brew your coffee? (Espresso)': 'Espresso',
+    'How do you brew your coffee? (Coffee brewing machine)': 'Coffe brewing machine',
+    'How do you brew your coffee? (Pod/capsule machine)': 'Pod/capsule machine',
+    'How do you brew your coffee? (Instant coffee)': 'Instant coffee',
+    'How do you brew your coffee? (Bean-to-cup machine)': 'Bean-to-cup machine',
+    'How do you brew your coffee? (Cold brew)': 'Cold brew',
+    'How do you brew your coffee? (Coffee extract)': 'Coffee extract'
+}
+
+brewing_methods = df[brewing_methods_field_names]
+brewing_methods = brewing_methods.rename(columns=brewing_methods_field_name_map)
+print("\n\nNew dataframe that shows the brewing method preferences:")
+print(brewing_methods)
+
+print("\nCount of brewing methods not preferred by any:")
+print(brewing_methods.isna().sum())
+
+brewing_methods = brewing_methods.dropna()
+print("\nBrewing method preferences:")
+print(brewing_methods)
+
+brewing_methods_preferred = brewing_methods.mean() * 100
+print("\nPercentage of brewing methods preferred:")
+
+brewing_methods_preferred = brewing_methods_preferred.sort_values()
+print(brewing_methods_preferred)
+brewing_methods_preferred.to_csv("output/brewing_methods_preference.csv")
+
+plt.barh(brewing_methods_preferred.index, brewing_methods_preferred)
+plt.title("Percentage of people preferring different brewing methods")
+plt.xlabel("Percentage of People")
+plt.ylabel("Brewing methods")
+plt.savefig("output/figures/people-and-their-brewing-methods-choices.png")
 plt.show()
